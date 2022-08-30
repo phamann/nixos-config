@@ -32,7 +32,7 @@
   boot.loader.systemd-boot.consoleMode = "0";
 
   # Define your hostname.
-  networking.hostName = "dev";
+  networking.hostName = "nixos-vm";
 
   # Set your time zone.
   time.timeZone = "Europe/London";
@@ -52,31 +52,31 @@
   i18n.defaultLocale = "en_US.UTF-8";
 
   # setup windowing environment
-  services.xserver = {
-    enable = true;
-    layout = "us";
-    dpi = 220;
-
-    desktopManager = {
-      xterm.enable = false;
-      wallpaper.mode = "fill";
-    };
-
-    displayManager = {
-      defaultSession = "none+i3";
-      lightdm.enable = true;
-
-      # AARCH64: For now, on Apple Silicon, we must manually set the
+#  services.xserver = {
+#    enable = true;
+#    layout = "us";
+#    dpi = 220;
+#
+#    desktopManager = {
+#      xterm.enable = false;
+#      wallpaper.mode = "fill";
+#    };
+#
+#    displayManager = {
+#      defaultSession = "none+i3";
+#      lightdm.enable = true;
+#
+#      # AARCH64: For now, on Apple Silicon, we must manually set the
       # display resolution. This is a known issue with VMware Fusion.
-      sessionCommands = ''
-        ${pkgs.xorg.xset}/bin/xset r rate 200 40
-      '';
-    };
-
-    windowManager = {
-      i3.enable = true;
-    };
-  };
+#      sessionCommands = ''
+#        ${pkgs.xorg.xset}/bin/xset r rate 200 40
+#      '';
+#    };
+#
+#    windowManager = {
+#      i3.enable = true;
+#    };
+#   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.mutableUsers = false;
@@ -100,6 +100,13 @@
     niv
     rxvt_unicode
     xclip
+
+    dig
+    vim
+    neovim
+    wget
+    zsh
+    tmux
 
     # For hypervisors that support auto-resizing, this script forces it.
     # I've noticed not everyone listens to the udev events so this is a hack.
