@@ -1,4 +1,16 @@
 {
+    "filetype-nvim": {
+        "branch": "main",
+        "description": "A faster version of filetype.vim",
+        "homepage": null,
+        "owner": "nathom",
+        "repo": "filetype.nvim",
+        "rev": "b522628a45a17d58fc0073ffd64f9dc9530a8027",
+        "sha256": "0l2cg7r78qbsbc6n5cvwl5m5lrzyfvazs5z3gf54hspw120nzr87",
+        "type": "tarball",
+        "url": "https://github.com/nathom/filetype.nvim/archive/b522628a45a17d58fc0073ffd64f9dc9530a8027.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
     "nixpkgs": {
         "branch": "release-21.05",
         "description": "Nix Packages collection",
@@ -9,6 +21,18 @@
         "sha256": "12q00nbd7fb812zchbcnmdg3pw45qhxm74hgpjmshc2dfmgkjh4n",
         "type": "tarball",
         "url": "https://github.com/NixOS/nixpkgs/archive/022caabb5f2265ad4006c1fa5b1ebe69fb0c3faf.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "spellsitter-nvim": {
+        "branch": "master",
+        "description": "Treesitter powered spellchecker",
+        "homepage": "",
+        "owner": "lewis6991",
+        "repo": "spellsitter.nvim",
+        "rev": "eb74c4b1f4240cf1a7860877423195cec6311bd5",
+        "sha256": "0qajg4kjwlwbxjjms580v5aisg1vjid4vbmvzwk6nsfms8nrzn18",
+        "type": "tarball",
+        "url": "https://github.com/lewis6991/spellsitter.nvim/archive/eb74c4b1f4240cf1a7860877423195cec6311bd5.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     }
 }

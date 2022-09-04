@@ -3,7 +3,6 @@ require("nvim-tree").setup({
     update_focused_file = {
         enable = true,
     },
-    -- open_on_setup_file = true,
     git = {
         enable = false,
     },

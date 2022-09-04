@@ -1,4 +1,3 @@
--- Material
 vim.g.material_style = "palenight"
 
 require('material').setup({
@@ -10,24 +9,22 @@ require('material').setup({
     },
 
 	italics = {
-		comments = true, -- Enable italic comments
+		comments = true,
 	},
 
     high_visibility = {
-		lighter = true, -- Enable higher contrast text for lighter style
+		lighter = true,
 	},
 
     custom_colors = {
-        bg_nc  = '#262a3a', -- 5%  of bg
-        bg_cur = '#242837', -- 10% of bg
-        float  = '#222634', -- 15% of bg
+        bg_nc  = '#262a3a',
+        bg_cur = '#242837',
+        float  = '#222634',
     },
 })
 
 vim.cmd("colorscheme material");
 
--- Override indent colours
--- Sadly we must do these here and not plugin/indent.lua as material.nvim overrides them.
 vim.api.nvim_set_hl(0, "IndentBlanklineIndent1", { fg = "#303c5c", nocombine = true})
 vim.api.nvim_set_hl(0, "IndentBlanklineIndent2", { fg = "#A6ACCD", nocombine = true})
 vim.api.nvim_set_hl(0, "IndentBlanklineSpaceChar", { fg = "#303c5c", nocombine = true})
