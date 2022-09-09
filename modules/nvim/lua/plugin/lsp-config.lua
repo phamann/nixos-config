@@ -114,7 +114,6 @@ require("rust-tools").setup({
     },
 })
 
-
 -- NOTE: When using :LspInstallInfo to install available LSPs, we need to still
 -- add calls to their setup here in our Vim configuration.
 
@@ -126,3 +125,4 @@ lspcfg.terraformls.setup({
 })
 lspcfg.tflint.setup{}
 lspcfg.tsserver.setup{}
+lspcfg.rnix.setup{}
