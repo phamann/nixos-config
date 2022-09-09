@@ -126,6 +126,7 @@ in {
                 setopt nobeep
                 setopt prompt_subst
                 source ${pkgs.grc}/etc/grc.zsh
+                ${builtins.readFile ./functions.zsh}
                 '';
         };
     };
