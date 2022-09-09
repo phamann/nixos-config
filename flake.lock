@@ -1,5 +1,21 @@
 {
   "nodes": {
+    "filetype-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1654194633,
+        "narHash": "sha256-B+VvgQj8akiKe+MX/dV2/mdaaqF8s2INW3phdPJ5TFA=",
+        "owner": "nathom",
+        "repo": "filetype.nvim",
+        "rev": "b522628a45a17d58fc0073ffd64f9dc9530a8027",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nathom",
+        "repo": "filetype.nvim",
+        "type": "github"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -18,6 +34,22 @@
         "owner": "nix-community",
         "ref": "release-22.05",
         "repo": "home-manager",
+        "type": "github"
+      }
+    },
+    "move-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1662668559,
+        "narHash": "sha256-62EOq4txBVIPxQBJZtZWX0Vg9kKdhWlYIEqzrNmZFbw=",
+        "owner": "fedepujol",
+        "repo": "move.nvim",
+        "rev": "859af7c9eaa0927b41e65a1990d9c3847f5e320c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "fedepujol",
+        "repo": "move.nvim",
         "type": "github"
       }
     },
@@ -55,9 +87,45 @@
     },
     "root": {
       "inputs": {
+        "filetype-nvim": "filetype-nvim",
         "home-manager": "home-manager",
+        "move-nvim": "move-nvim",
         "nixpkgs": "nixpkgs",
-        "nixpkgs-unstable": "nixpkgs-unstable"
+        "nixpkgs-unstable": "nixpkgs-unstable",
+        "spellsitter-nvim": "spellsitter-nvim",
+        "trim-nvim": "trim-nvim"
+      }
+    },
+    "spellsitter-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1662462015,
+        "narHash": "sha256-GvNrHog/A/Mo9U97uLE/tOF29h82bc4Lnvyd8NwLntQ=",
+        "owner": "lewis6991",
+        "repo": "spellsitter.nvim",
+        "rev": "4af8640d9d706447e78c13150ef7475ea2c16b30",
+        "type": "github"
+      },
+      "original": {
+        "owner": "lewis6991",
+        "repo": "spellsitter.nvim",
+        "type": "github"
+      }
+    },
+    "trim-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1655414617,
+        "narHash": "sha256-fNV+ZHKU9Vn1bHw4dK4UU1MUYscPLxXLiL5on0cqrFM=",
+        "owner": "cappyzawa",
+        "repo": "trim.nvim",
+        "rev": "ab366eb0dd7b3faeaf90a0ec40c993ff18d8c068",
+        "type": "github"
+      },
+      "original": {
+        "owner": "cappyzawa",
+        "repo": "trim.nvim",
+        "type": "github"
       }
     }
   },

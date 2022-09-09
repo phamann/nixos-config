@@ -1,5 +1,4 @@
-{ config, pkgs, lib, ... }:
-let sources = import ../../nix/sources.nix; in {
+{ config, pkgs, lib, ... }: {
 
     home.username = "phamann";
     home.homeDirectory = "/home/phamann";
@@ -62,7 +61,7 @@ let sources = import ../../nix/sources.nix; in {
         enableZshIntegration = true;
         defaultOptions = ["--height 40%" "--reverse" "--border"];
     };
-    
+
     # https://nixos.wiki/wiki/Home_Manager#Installation_as_a_user
     # home-manager needs your shell to source hm-session-vars.sh
     # https://nix-community.github.io/home-manager/options.html#opt-programs.zsh.enable
@@ -292,114 +291,138 @@ let sources = import ../../nix/sources.nix; in {
     programs.neovim = {
         enable = true;
         extraConfig = "luafile ~/.config/nvim/main.lua";
-        plugins = with pkgs; [
-            customNvim.fietype-nvim
-            vimPlugins.plenary-nvim
-            vimPlugins.telescope-fzf-native-nvim
-            vimPlugins.vim-surround
-            vimPlugins.vim-highlightedyank
-            vimPlugins.vim-gh-line
+        plugins = with pkgs.vimPlugins; [
             {
-                plugin = vimPlugins.material-nvim;
+                plugin = filetype-nvim;
+                config = "luafile ~/.config/nvim/plugin/filetype.lua";
+            }
+            FixCursorHold-nvim
+            {
+                plugin = nvim-web-devicons;
+                config = "luafile ~/.config/nvim/plugin/web-devicons.lua";
+            }
+            plenary-nvim
+            telescope-fzf-native-nvim
+            vim-surround
+            vim-highlightedyank
+            {
+                plugin = move-nvim;
+                config = "luafile ~/.config/nvim/plugin/move.lua";
+            }
+            vim-gh-line
+            {
+                plugin = material-nvim;
                 config = "luafile ~/.config/nvim/plugin/material.lua";
             }
             {
-                plugin = vimPlugins.nvim-treesitter;
+                plugin = nvim-treesitter;
                 config = "luafile ~/.config/nvim/plugin/treesitter.lua";
             }
-            customNvim.spellsitter-nvim
             {
-                plugin = vimPlugins.telescope-nvim;
+                plugin = spellsitter-nvim;
+                config = ''lua require("spellsitter").setup()'';
+            }
+            {
+                plugin = telescope-nvim;
                 config = "luafile ~/.config/nvim/plugin/telescope.lua";
             }
             {
-                plugin = vimPlugins.nvim-tree-lua;
+                plugin = nvim-tree-lua;
                 config = "luafile ~/.config/nvim/plugin/tree.lua";
             }
             {
-                plugin = vimPlugins.lualine-nvim;
+                plugin = lualine-nvim;
                 config = "luafile ~/.config/nvim/plugin/lualine.lua";
             }
             {
-                plugin = vimPlugins.ack-vim;
+                plugin = ack-vim;
                 config = "luafile ~/.config/nvim/plugin/ack.lua";
             }
             {
-                plugin = vimPlugins.kommentary;
+                plugin = kommentary;
                 config = "luafile ~/.config/nvim/plugin/kommentary.lua";
             }
             {
-                plugin = vimPlugins.gitsigns-nvim;
+                plugin = gitsigns-nvim;
                 config = ''lua require("gitsigns").setup()'';
             }
             {
-                plugin = vimPlugins.dressing-nvim;
+                plugin = dressing-nvim;
                 config = ''lua require("dressing").setup()'';
             }
             {
-                plugin = vimPlugins.toggleterm-nvim;
+                plugin = toggleterm-nvim;
                 config = ''lua require("toggleterm").setup()'';
             }
             {
-                plugin = vimPlugins.which-key-nvim;
+                plugin = which-key-nvim;
                 config = ''lua require("which-key").setup()'';
             }
             {
-                plugin = vimPlugins.nvim-colorizer-lua;
+                plugin = nvim-colorizer-lua;
                 config = ''lua require("colorizer").setup()'';
             }
             {
-                plugin = vimPlugins.indent-blankline-nvim;
+                plugin = indent-blankline-nvim;
                 config = "luafile ~/.config/nvim/plugin/indent.lua";
             }
             {
-                plugin = vimPlugins.diffview-nvim;
+                plugin = trim-nvim;
+                config = "luafile ~/.config/nvim/plugin/trim.lua";
+            }
+            {
+                plugin = diffview-nvim;
                 config = "luafile ~/.config/nvim/plugin/diffview.lua";
             }
             {
-                plugin = vimPlugins.nvim-spectre;
+                plugin = nvim-spectre;
                 config = "luafile ~/.config/nvim/plugin/spectre.lua";
             }
             {
-                plugin = vimPlugins.nvim-cmp;
+                plugin = nvim-cmp;
                 config = "luafile ~/.config/nvim/plugin/cmp.lua";
             }
-            vimPlugins.cmp-buffer
-            vimPlugins.cmp-nvim-lsp
-            vimPlugins.cmp-path
-            vimPlugins.cmp-vsnip
-            vimPlugins.vim-vsnip
-            vimPlugins.vim-vsnip-integ
-            vimPlugins.nvim-lspconfig
+            cmp-buffer
+            cmp-nvim-lsp
+            cmp-path
+            cmp-vsnip
+            vim-vsnip
+            vim-vsnip-integ
+            nvim-lspconfig
             {
-                plugin = vimPlugins.nvim-lspconfig;
+                plugin = nvim-lspconfig;
                 config = "luafile ~/.config/nvim/plugin/lsp-config.lua";
             }
             {
-                plugin = vimPlugins.fidget-nvim;
+                plugin = fidget-nvim;
                 config = ''lua require("fidget").setup()'';
             }
             {
-                plugin = vimPlugins.trouble-nvim;
+                plugin = trouble-nvim;
                 config = ''lua require("trouble").setup()'';
             }
-            vimPlugins.rust-tools-nvim
+            {
+                plugin = nvim-lightbulb;
+                config = "luafile ~/.config/nvim/plugin/lightbulb.lua";
+            }
+            {
+                plugin = nvim-lint;
+                config = "luafile ~/.config/nvim/plugin/lint.lua";
+            }
+            {
+                plugin = nvim-code-action-menu;
+                config = "luafile ~/.config/nvim/plugin/code-action-menu.lua";
+            }
+            rust-tools-nvim
         ];
     };
 
-    home.file.".config/nvim/main.lua".source = ./nvim/main.lua;
-    home.file.".config/nvim/plugin/material.lua".source = ./nvim/plugin/material.lua;
-    home.file.".config/nvim/plugin/treesitter.lua".source = ./nvim/plugin/treesitter.lua;
-    home.file.".config/nvim/plugin/telescope.lua".source = ./nvim/plugin/telescope.lua;
-    home.file.".config/nvim/plugin/tree.lua".source = ./nvim/plugin/tree.lua;
-    home.file.".config/nvim/plugin/lualine.lua".source = ./nvim/plugin/lualine.lua;
-    home.file.".config/nvim/plugin/ack.lua".source = ./nvim/plugin/ack.lua;
-    home.file.".config/nvim/plugin/kommentary.lua".source = ./nvim/plugin/kommentary.lua;
-    home.file.".config/nvim/plugin/indent.lua".source = ./nvim/plugin/indent.lua;
-    home.file.".config/nvim/plugin/diffview.lua".source = ./nvim/plugin/diffview.lua;
-    home.file.".config/nvim/plugin/spectre.lua".source = ./nvim/plugin/spectre.lua;
-    home.file.".config/nvim/plugin/cmp.lua".source = ./nvim/plugin/cmp.lua;
-    home.file.".config/nvim/plugin/lsp-config.lua".source = ./nvim/plugin/lsp-config.lua;
+    xdg.configFile = {
+      nvim = {
+        source = ./nvim;
+        recursive = true;
+      };
+    };
 
     services.gpg-agent = {
         enable = true;

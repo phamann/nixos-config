@@ -1,4 +1,4 @@
-name: { nixpkgs, home-manager, system, user }:
+name: { nixpkgs, home-manager, customNvimPlugins, system, user }:
 
 nixpkgs.lib.nixosSystem rec {
   inherit system;
@@ -12,6 +12,7 @@ nixpkgs.lib.nixosSystem rec {
       home-manager.useGlobalPkgs = true;
       home-manager.useUserPackages = true;
       home-manager.users.${user} = import ../users/${user}/home-manager.nix;
+      home-manager.extraSpecialArgs = { inherit customNvimPlugins; };
     }
 
     {
