@@ -85,6 +85,22 @@
         "type": "github"
       }
     },
+    "nvim-tree-lua": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1662351758,
+        "narHash": "sha256-pqnpt7wccGF5u+V6qvva+vCLugoi+jJY7rk0lXTzg20=",
+        "owner": "kyazdani42",
+        "repo": "nvim-tree.lua",
+        "rev": "3e49d9b7484e21f0b24ebdf21b8b7af227ea97a6",
+        "type": "github"
+      },
+      "original": {
+        "owner": "kyazdani42",
+        "repo": "nvim-tree.lua",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "filetype-nvim": "filetype-nvim",
@@ -92,6 +108,7 @@
         "move-nvim": "move-nvim",
         "nixpkgs": "nixpkgs",
         "nixpkgs-unstable": "nixpkgs-unstable",
+        "nvim-tree-lua": "nvim-tree-lua",
         "spellsitter-nvim": "spellsitter-nvim",
         "trim-nvim": "trim-nvim"
       }

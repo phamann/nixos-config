@@ -2,22 +2,23 @@
   description = "Patrick Hamann's NixOS system configuration";
 
   inputs = {
-    # Pin our primary nixpkgs repository. This is the main nixpkgs repository
-    # we'll use for our configurations. Be very careful changing this because
-    # it'll impact your entire system.
+    # Pin the primary nixpkgs repository. This is the main nixpkgs repository
+    # used for all configurations. Be very careful changing this because
+    # it'll impact the entire system.
     nixpkgs.url = "github:nixos/nixpkgs/release-22.05";
 
-    # We use the unstable nixpkgs repo for some packages.
+    # Use the unstable nixpkgs repo for some packages.
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
 
     home-manager = {
       url = "github:nix-community/home-manager/release-22.05";
 
-      # We want home-manager to use the same set of nixpkgs as our system.
+      # Ensure home-manager uses the same set of nixpkgs as our system.
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     # Custom nvim plugins
+    # TODO: Upstream these to nixpkgs, so I no longer need to do this.
     filetype-nvim = {
         url = "github:nathom/filetype.nvim";
         flake = false;
@@ -34,37 +35,23 @@
         url = "github:fedepujol/move.nvim";
         flake = false;
     };
+    nvim-tree-lua = {
+        url = "github:kyazdani42/nvim-tree.lua";
+        flake = false;
+    };
   };
 
-  outputs = {
-      self,
-      nixpkgs,
-      home-manager,
-      filetype-nvim,
-      spellsitter-nvim,
-      trim-nvim,
-      move-nvim,
-      ...
-  } @ inputs: let
-    /* mkHost = import ./lib/mkhost.nix; */
-    customVimPluginsToBuild = {
-        inherit filetype-nvim spellsitter-nvim trim-nvim move-nvim;
+  outputs = { self, nixpkgs, home-manager, ... } @ inputs: let
+    buildVimPlugins = import ./lib/build-vim-plugins.nix;
+    vimPluginsToBuild = {
+        inherit (inputs)
+            filetype-nvim spellsitter-nvim trim-nvim move-nvim nvim-tree-lua;
     };
-    buildVimPlugin = system: plugin:
-        let inherit (nixpkgs.legacyPackages.${system}) vimUtils;
-        in vimUtils.buildVimPluginFrom2Nix plugin;
-    buildAllVimPlugins = system:
-        builtins.mapAttrs (pluginName: plugin:
-          buildVimPlugin system {
-            pname = pluginName;
-            version = plugin.rev or self.rev or "dirty";
-            src = plugin;
-          }) customVimPluginsToBuild;
     mkSystem = pkgs: system: hostname: user:
       let
-        customVimPlugins = buildAllVimPlugins system;
-        customVimPluginOverlay = final: prev: {
-            vimPlugins = prev.vimPlugins // customVimPlugins;
+        vimPlugins = buildVimPlugins nixpkgs system vimPluginsToBuild;
+        vimPluginOverlay = final: prev: {
+            vimPlugins = prev.vimPlugins // vimPlugins;
         };
       in
       pkgs.lib.nixosSystem {
@@ -74,7 +61,7 @@
             (./. + "/machines/${hostname}.nix")
             (./. + "/users/${user}/nixos.nix")
             {
-                nixpkgs.overlays = [customVimPluginOverlay];
+                nixpkgs.overlays = [vimPluginOverlay];
             }
             home-manager.nixosModules.home-manager {
               home-manager.useGlobalPkgs = true;
