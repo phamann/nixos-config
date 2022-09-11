@@ -4,16 +4,16 @@
     home.homeDirectory = "/home/phamann";
 
     imports = [
-        ../../modules/packages
-        ../../modules/zsh
-        ../../modules/starship
-        ../../modules/ssh
-        ../../modules/git
-        ../../modules/fzf
-        ../../modules/kitty
-        ../../modules/nvim
-        ../../modules/z
-        ../../modules/gpg
+        ../../modules/home-manager/packages
+        ../../modules/home-manager/zsh
+        ../../modules/home-manager/starship
+        ../../modules/home-manager/ssh
+        ../../modules/home-manager/git
+        ../../modules/home-manager/fzf
+        ../../modules/home-manager/kitty
+        ../../modules/home-manager/nvim
+        ../../modules/home-manager/z
+        ../../modules/home-manager/gpg
     ];
 
     modules = {

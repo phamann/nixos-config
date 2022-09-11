@@ -43,10 +43,33 @@
 
   outputs = { self, nixpkgs, home-manager, ... } @ inputs: let
     buildVimPlugins = import ./lib/build-vim-plugins.nix;
+
+    # Map of custom vim plugins to build.
     vimPluginsToBuild = {
         inherit (inputs)
             filetype-nvim spellsitter-nvim trim-nvim move-nvim nvim-tree-lua;
     };
+
+    # Generate a base nixos configuration with the specified overlays,
+    # hardware modules, and any extraModules applied.
+    mkNixosConfig =
+        {
+            system ? "x86_64-linux",
+            nixpkgs ? inputs.nixos-unstable,
+            stable ? inputs.stable,
+            hardwareModules,
+            baseModules ? [
+                home-manager.nixosModules.home-manager
+                ./modules/nixos
+            ],
+            extraModules ? [ ]
+        }:
+        nixpkgs.lib.nixosSystem {
+          inherit system;
+          modules = baseModules ++ hardwareModules ++ extraModules;
+          specialArgs = { inherit self inputs nixpkgs; };
+        };
+
     mkSystem = pkgs: system: hostname: user:
       let
         vimPlugins = buildVimPlugins nixpkgs system vimPluginsToBuild;
@@ -57,8 +80,8 @@
       pkgs.lib.nixosSystem {
         system = system;
         modules = [
-            (./. + "/hardware/${hostname}.nix")
-            (./. + "/machines/${hostname}.nix")
+            (./. + "/modules/hardware/${hostname}.nix")
+            (./. + "/modules/hosts/${hostname}.nix")
             (./. + "/users/${user}/nixos.nix")
             {
                 nixpkgs.overlays = [vimPluginOverlay];
