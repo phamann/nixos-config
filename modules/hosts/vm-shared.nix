@@ -1,4 +1,4 @@
-{ config, pkgs, lib, currentSystem, currentSystemName,... }:
+{ config, pkgs, lib, currentSystem, currentSystemName, ... }:
 
 {
   # Be careful updating this.
@@ -52,31 +52,31 @@
   i18n.defaultLocale = "en_US.UTF-8";
 
   # setup windowing environment
-#  services.xserver = {
-#    enable = true;
-#    layout = "us";
-#    dpi = 220;
-#
-#    desktopManager = {
-#      xterm.enable = false;
-#      wallpaper.mode = "fill";
-#    };
-#
-#    displayManager = {
-#      defaultSession = "none+i3";
-#      lightdm.enable = true;
-#
-#      # AARCH64: For now, on Apple Silicon, we must manually set the
-      # display resolution. This is a known issue with VMware Fusion.
-#      sessionCommands = ''
-#        ${pkgs.xorg.xset}/bin/xset r rate 200 40
-#      '';
-#    };
-#
-#    windowManager = {
-#      i3.enable = true;
-#    };
-#   };
+  #  services.xserver = {
+  #    enable = true;
+  #    layout = "us";
+  #    dpi = 220;
+  #
+  #    desktopManager = {
+  #      xterm.enable = false;
+  #      wallpaper.mode = "fill";
+  #    };
+  #
+  #    displayManager = {
+  #      defaultSession = "none+i3";
+  #      lightdm.enable = true;
+  #
+  #      # AARCH64: For now, on Apple Silicon, we must manually set the
+  # display resolution. This is a known issue with VMware Fusion.
+  #      sessionCommands = ''
+  #        ${pkgs.xorg.xset}/bin/xset r rate 200 40
+  #      '';
+  #    };
+  #
+  #    windowManager = {
+  #      i3.enable = true;
+  #    };
+  #   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.mutableUsers = false;
