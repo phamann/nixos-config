@@ -42,10 +42,9 @@
   };
 
   outputs = { self, nixpkgs, home-manager, ... } @ inputs: let
-    buildVimPlugins = import ./lib/build-vim-plugins.nix;
 
-    # Map of custom vim plugins to build.
-    vimPluginsToBuild = {
+    # Custom nvim plugins
+    vimPlugins = {
         inherit (inputs)
             filetype-nvim spellsitter-nvim trim-nvim move-nvim nvim-tree-lua;
     };
@@ -71,12 +70,6 @@
         };
 
     mkSystem = pkgs: system: hostname: user:
-      let
-        vimPlugins = buildVimPlugins nixpkgs system vimPluginsToBuild;
-        vimPluginOverlay = final: prev: {
-            vimPlugins = prev.vimPlugins // vimPlugins;
-        };
-      in
       pkgs.lib.nixosSystem {
         system = system;
         modules = [
@@ -84,7 +77,9 @@
             (./. + "/modules/hosts/${hostname}.nix")
             (./. + "/users/${user}/nixos.nix")
             {
-                nixpkgs.overlays = [vimPluginOverlay];
+                nixpkgs.overlays = [
+                    (import ./overlays/vim-plugins.nix nixpkgs vimPlugins system)
+                ];
             }
             home-manager.nixosModules.home-manager {
               home-manager.useGlobalPkgs = true;
