@@ -2,8 +2,11 @@
 
 {
   users.users.phamann = {
+    description = "Patrick Hamann";
+    home = "${
+        if pkgs.stdenvNoCC.isDarwin then "/Users" else "/home"
+      }/phamann";
     isNormalUser = true;
-    home = "/home/phamann";
     extraGroups = [ "docker" "wheel" ];
     shell = pkgs.zsh;
     # https://github.com/NixOS/nixpkgs/blob/8a053bc2255659c5ca52706b9e12e76a8f50dbdd/nixos/modules/config/users-groups.nix#L43

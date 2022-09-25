@@ -7,6 +7,8 @@
     # it'll impact the entire system.
     nixpkgs.url = "github:nixos/nixpkgs/release-22.05";
 
+    nixos-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+
     # Use the unstable nixpkgs repo for some packages.
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
 
@@ -43,6 +45,10 @@
 
   outputs = { self, nixpkgs, home-manager, ... } @ inputs: let
 
+    isDarwin = system:
+        (builtins.elem system inputs.nixpkgs.lib.platforms.darwin);
+    homePrefix = system: if isDarwin system then "/Users" else "/home";
+
     # Custom nvim plugins
     vimPlugins = {
         inherit (inputs)
@@ -56,16 +62,34 @@
             system ? "x86_64-linux",
             nixpkgs ? inputs.nixos-unstable,
             stable ? inputs.stable,
-            hardwareModules,
-            baseModules ? [
-                home-manager.nixosModules.home-manager
-                ./modules/nixos
+            hostname,
+            username ? "phamann",
+            hardwareModules ? [
+                (./. + "/modules/hardware/${hostname}.nix")
             ],
-            extraModules ? [ ]
+            hostModules ? [
+                (./. + "/modules/hosts/${hostname}.nix")
+            ],
+            baseModules ? [
+                { networking.hostName = hostname; }
+                ./modules/common
+                ./modules/nixos
+                home-manager.nixosModules.home-manager {
+                    home-manager.users.${username} = import ./modules/home-manager;
+                }
+                (./. + "/users/${username}.nix")
+                {
+                  nixpkgs.overlays = [
+                    (import ./overlays/vim-plugins.nix nixpkgs vimPlugins system)
+                  ];
+                }
+            ],
+            extraModules ? []
         }:
         nixpkgs.lib.nixosSystem {
           inherit system;
-          modules = baseModules ++ hardwareModules ++ extraModules;
+          modules =
+            baseModules ++ hardwareModules ++ hostModules ++ extraModules;
           specialArgs = { inherit self inputs nixpkgs; };
         };
 
@@ -100,7 +124,12 @@
       };
     in {
       nixosConfigurations = {
-        vm-aarch64 = mkSystem inputs.nixpkgs "aarch64-linux" "vm-aarch64" "phamann";
+        /* vm-aarch64 = mkSystem inputs.nixpkgs "aarch64-linux" "vm-aarch64" "phamann"; */
+        vm-aarch64 = mkNixosConfig {
+            system = "aarch64-linux";
+            hostname = "vm-aarch64";
+            username = "phamann";
+        };
       };
     };
 }

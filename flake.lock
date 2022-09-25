@@ -53,6 +53,22 @@
         "type": "github"
       }
     },
+    "nixos-unstable": {
+      "locked": {
+        "lastModified": 1664017330,
+        "narHash": "sha256-919WZKBTxFdTkzIK6uJXE7hwSPQb7e/ekybxxWaotR4=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "fde244a8c7655bc28616864e2290ad9c95409c2c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1661520432,
@@ -106,6 +122,7 @@
         "filetype-nvim": "filetype-nvim",
         "home-manager": "home-manager",
         "move-nvim": "move-nvim",
+        "nixos-unstable": "nixos-unstable",
         "nixpkgs": "nixpkgs",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "nvim-tree-lua": "nvim-tree-lua",
