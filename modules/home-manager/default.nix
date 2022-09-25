@@ -10,6 +10,7 @@
     ./nvim
     ./z
     ./gpg
+    ./tmux
   ];
 
   modules = {
@@ -23,6 +24,7 @@
     nvim.enable = true;
     z.enable = true;
     gpg.enable = true;
+    tmux.enable = true;
   };
 
   programs.home-manager = {
