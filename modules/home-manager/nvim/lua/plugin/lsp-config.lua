@@ -72,7 +72,7 @@ require("rust-tools").setup({
   -- rust-tools options
   tools = {
     autoSetHints = true,
-    hover_with_actions = true,
+    -- hover_with_actions = true,
     inlay_hints = {
       show_variable_name = true,
       show_parameter_hints = true,

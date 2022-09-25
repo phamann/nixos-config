@@ -117,6 +117,23 @@
         "type": "github"
       }
     },
+    "nvim-treesitter": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1653291785,
+        "narHash": "sha256-7/9/jnx451zUmDeQMZczn6fCKys9mHXn7on8IEx47LQ=",
+        "owner": "nvim-treesitter",
+        "repo": "nvim-treesitter",
+        "rev": "3e0cc6b872116d829e56629b442526e057e5724e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nvim-treesitter",
+        "repo": "nvim-treesitter",
+        "rev": "3e0cc6b872116d829e56629b442526e057e5724e",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "filetype-nvim": "filetype-nvim",
@@ -126,6 +143,7 @@
         "nixpkgs": "nixpkgs",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "nvim-tree-lua": "nvim-tree-lua",
+        "nvim-treesitter": "nvim-treesitter",
         "spellsitter-nvim": "spellsitter-nvim",
         "trim-nvim": "trim-nvim"
       }

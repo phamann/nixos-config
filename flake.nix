@@ -41,6 +41,10 @@
         url = "github:kyazdani42/nvim-tree.lua";
         flake = false;
     };
+    nvim-treesitter = {
+        url = "github:nvim-treesitter/nvim-treesitter/3e0cc6b872116d829e56629b442526e057e5724e";
+        flake = false;
+    };
   };
 
   outputs = { self, nixpkgs, home-manager, ... } @ inputs: let
@@ -52,7 +56,7 @@
     # Custom nvim plugins
     vimPlugins = {
         inherit (inputs)
-            filetype-nvim spellsitter-nvim trim-nvim move-nvim nvim-tree-lua;
+            filetype-nvim spellsitter-nvim trim-nvim move-nvim nvim-tree-lua nvim-treesitter;
     };
 
     # Generate a base nixos configuration with the specified overlays,
