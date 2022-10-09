@@ -133,6 +133,9 @@ in
           }
           rust-tools-nvim
         ];
+        extraPackages = with pkgs; [
+            rust-analyzer
+        ];
       };
       xdg.configFile = {
         nvim = {

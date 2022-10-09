@@ -19,6 +19,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    rust-overlay.url = "github:oxalica/rust-overlay";
+
     # Custom nvim plugins
     # TODO: Upstream these to nixpkgs, so I no longer need to do this.
     filetype-nvim = {
@@ -47,7 +49,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, ... } @ inputs: let
+  outputs = { self, nixpkgs, home-manager, rust-overlay, ... } @ inputs: let
 
     isDarwin = system:
         (builtins.elem system inputs.nixpkgs.lib.platforms.darwin);
@@ -85,6 +87,7 @@
                 {
                   nixpkgs.overlays = [
                     (import ./overlays/vim-plugins.nix nixpkgs vimPlugins system)
+                    rust-overlay.overlays.default
                   ];
                 }
             ],

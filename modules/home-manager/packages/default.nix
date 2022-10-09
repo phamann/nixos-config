@@ -35,10 +35,14 @@ in
         google-cloud-sdk
 
         # Language tools
+        # TODO: most should be moved to project specific shell.nix
         go
         gopls
         rnix-lsp
         nixpkgs-fmt
+        (pkgs.rust-bin.stable.latest.default.override {
+            targets = [ "wasm32-unknown-unknown" "wasm32-wasi" ];
+        })
       ];
     };
 }
