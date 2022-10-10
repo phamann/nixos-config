@@ -49,11 +49,19 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, rust-overlay, ... } @ inputs: let
+  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, rust-overlay, ... } @ inputs: let
 
     isDarwin = system:
         (builtins.elem system inputs.nixpkgs.lib.platforms.darwin);
     homePrefix = system: if isDarwin system then "/Users" else "/home";
+
+    # https://nixos.wiki/wiki/Flakes#Importing_packages_from_multiple_channels
+    overlay-unstable = system: final: prev: {
+      unstable = import nixpkgs-unstable {
+        inherit system;
+        inputs.nixpkgs.config.allowUnfree = true;
+      };
+    };
 
     # Custom nvim plugins
     vimPlugins = {
@@ -78,14 +86,14 @@
             ],
             baseModules ? [
                 { networking.hostName = hostname; }
-                ./modules/common
-                ./modules/nixos
+                ./modules/system/configuration.nix
                 home-manager.nixosModules.home-manager {
                     home-manager.users.${username} = import ./modules/home-manager;
                 }
                 (./. + "/users/${username}.nix")
                 {
                   nixpkgs.overlays = [
+                    (overlay-unstable system)
                     (import ./overlays/vim-plugins.nix nixpkgs vimPlugins system)
                     rust-overlay.overlays.default
                   ];
@@ -100,38 +108,8 @@
           specialArgs = { inherit self inputs nixpkgs; };
         };
 
-    mkSystem = pkgs: system: hostname: user:
-      pkgs.lib.nixosSystem {
-        system = system;
-        modules = [
-            (./. + "/modules/hardware/${hostname}.nix")
-            (./. + "/modules/hosts/${hostname}.nix")
-            (./. + "/users/${user}/nixos.nix")
-            {
-                nixpkgs.overlays = [
-                    (import ./overlays/vim-plugins.nix nixpkgs vimPlugins system)
-                ];
-            }
-            home-manager.nixosModules.home-manager {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.${user} = import ./users/${user}/home.nix;
-              home-manager.extraSpecialArgs = { inherit inputs; };
-            }
-
-            {
-              # https://github.com/NixOS/nixpkgs/blob/58088cb7978176f3cff387ebb4e3bc2716e7ce4d/lib/modules.nix#L172
-              config._module.args = {
-                currentSystemName = hostname;
-                currentSystem = system;
-              };
-            }
-        ];
-        specialArgs = {inherit inputs;};
-      };
     in {
       nixosConfigurations = {
-        /* vm-aarch64 = mkSystem inputs.nixpkgs "aarch64-linux" "vm-aarch64" "phamann"; */
         vm-aarch64 = mkNixosConfig {
             system = "aarch64-linux";
             hostname = "vm-aarch64";
