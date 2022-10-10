@@ -131,6 +131,12 @@
     };
   };
 
+  services.openssh = {
+    enable = true;
+    passwordAuthentication = true;
+    permitRootLogin = "no";
+  };
+
   # https://fzakaria.com/2020/09/17/tailscale-is-magic-even-more-so-with-nixos.html
   # enable the tailscale daemon; this will do a variety of tasks:
   # 1. create the TUN network device
