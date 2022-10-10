@@ -78,33 +78,28 @@
             stable ? inputs.stable,
             hostname,
             username ? "phamann",
-            hardwareModules ? [
-                (./. + "/modules/hardware/${hostname}.nix")
-            ],
-            hostModules ? [
-                (./. + "/modules/hosts/${hostname}.nix")
-            ],
-            baseModules ? [
-                { networking.hostName = hostname; }
-                ./modules/system/configuration.nix
-                home-manager.nixosModules.home-manager {
-                    home-manager.users.${username} = import ./modules/home-manager;
-                }
-                (./. + "/users/${username}.nix")
-                {
-                  nixpkgs.overlays = [
-                    (overlay-unstable system)
-                    (import ./overlays/vim-plugins.nix nixpkgs vimPlugins system)
-                    rust-overlay.overlays.default
-                  ];
-                }
-            ],
-            extraModules ? []
+            profile ? "server",
+            extraModules ? [],
         }:
         nixpkgs.lib.nixosSystem {
           inherit system;
-          modules =
-            baseModules ++ hardwareModules ++ hostModules ++ extraModules;
+          modules = [
+            { networking.hostName = hostname; }
+            ./modules/system/configuration.nix
+            home-manager.nixosModules.home-manager {
+                home-manager.users.${username} = import (./. + "/profiles/${profile}/default.nix");
+            }
+            (./. + "/users/${username}.nix")
+            {
+              nixpkgs.overlays = [
+                (overlay-unstable system)
+                (import ./overlays/vim-plugins.nix nixpkgs vimPlugins system)
+                rust-overlay.overlays.default
+              ];
+            }
+            (./. + "/modules/hardware/${hostname}.nix")
+            (./. + "/modules/hosts/${hostname}.nix")
+          ] ++ extraModules;
           specialArgs = { inherit self inputs nixpkgs; };
         };
 
@@ -114,6 +109,7 @@
             system = "aarch64-linux";
             hostname = "vm-aarch64";
             username = "phamann";
+            profile = "server";
         };
       };
     };
